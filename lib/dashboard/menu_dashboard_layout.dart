@@ -54,9 +54,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                   'Roger Hoffman',
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
-                SizedBox(
-                  height: 6,
-                ),
+                SizedBox(height: 6),
                 Text(
                   'San Francisco, CA',
                   style: TextStyle(
@@ -64,9 +62,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                       fontSize: 18,
                       fontWeight: FontWeight.w200),
                 ),
-                SizedBox(
-                  height: 60,
-                ),
+                SizedBox(height: 60),
 
                 // MenuItem - Dashboard
                 MenuItem(
@@ -77,9 +73,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
 
                 // MenuItem - Message
                 MenuItem(
@@ -91,9 +85,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                     color: Colors.white54,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
 
                 // MenuItem - Utility bills
                 MenuItem(
@@ -105,9 +97,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                     color: Colors.white54,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
 
                 // MenuItem - Funds Transfer
                 MenuItem(
@@ -119,9 +109,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                     color: Colors.white54,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
 
                 // MenuItem - Funds Transfer
                 MenuItem(
@@ -133,9 +121,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                     color: Colors.white54,
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
+                SizedBox(height: 20),
               ],
             ),
             Padding(
@@ -174,7 +160,7 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
           elevation: 6,
           borderRadius: BorderRadius.circular(20),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
             child: Column(
               children: [
                 Row(
@@ -198,11 +184,12 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                   ],
                 ),
                 Container(
-                  height: 250,
+                  height: 235,
                   child: Container(
                     height: 225,
                     child: PageView(
-                      controller: PageController(viewportFraction: 0.9),
+                      controller:
+                          PageController(initialPage: 1, viewportFraction: 0.9),
                       pageSnapping: true,
                       scrollDirection: Axis.horizontal,
                       onPageChanged: (int index) {
@@ -216,13 +203,13 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                         CardWidget(
                           index1: _index,
                           index2: _index,
-                          color: Colors.blue,
+                          color: Colors.yellow,
                           text: '1',
                         ),
                         CardWidget(
                           index1: _index,
                           index2: _index,
-                          color: Colors.yellow,
+                          color: Colors.blue,
                           text: '2',
                         ),
                         CardWidget(
@@ -326,26 +313,62 @@ class _CardWidgetState extends State<CardWidget> {
       child: Padding(
         padding: const EdgeInsets.only(top: 25, bottom: 25),
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 8),
-          width: 100,
-          decoration: BoxDecoration(
-            color: widget.color,
-            borderRadius: BorderRadius.circular(18),
-            // boxShadow: [
-            //   BoxShadow(
-            //       color: color,
-            //       blurRadius: 15,
-            //       spreadRadius: 0.0,
-            //       offset: Offset(-2.0, 2.0))
-            // ],
-          ),
-          child: Center(
-            child: Text(
-              widget.text,
-              style: TextStyle(color: Colors.white, fontSize: 22),
+            margin: EdgeInsets.symmetric(horizontal: 8),
+            width: 100,
+            decoration: BoxDecoration(
+              color: widget.color,
+              borderRadius: BorderRadius.circular(18),
+              // boxShadow: [
+              //   BoxShadow(
+              //       color: color,
+              //       blurRadius: 15,
+              //       spreadRadius: 0.0,
+              //       offset: Offset(-2.0, 2.0))
+              // ],
             ),
-          ),
-        ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Current Balance',
+                        style: TextStyle(color: Colors.white70),
+                      ),
+                      Align(
+                        child: Text(
+                          'BankX',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    '\$12,432.32',
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    '**** **** **** 1505',
+                    style: TextStyle(color: Colors.white, fontSize: 22),
+                  ),
+                ],
+              ),
+            )
+            // Center(
+            //   child: Text(
+            //     widget.text,
+            //     style: TextStyle(color: Colors.white, fontSize: 22),
+            //   ),
+            // ),
+            ),
       ),
     );
   }

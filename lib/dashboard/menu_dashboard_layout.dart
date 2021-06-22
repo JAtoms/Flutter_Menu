@@ -201,40 +201,12 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                       },
                       children: [
                         CardWidget(
-                          index1: _index,
-                          index2: _index,
-                          color: Colors.yellow,
-                          text: '1',
-                        ),
-                        CardWidget(
-                          index1: _index,
-                          index2: _index,
                           color: Colors.blue,
-                          text: '2',
-                        ),
-                        CardWidget(
-                          index1: _index,
-                          index2: _index,
-                          color: Colors.greenAccent,
-                          text: '3',
-                        ),
-                        CardWidget(
-                          index1: _index,
-                          index2: _index,
-                          color: Colors.redAccent,
-                          text: '4',
-                        ),
-                        CardWidget(
-                          index1: _index,
-                          index2: _index,
-                          color: Colors.purple,
-                          text: '5',
-                        ),
-                        CardWidget(
-                          index1: _index,
-                          index2: _index,
-                          color: Colors.deepPurple,
-                          text: '6',
+                          currentBalance: '12,432.32',
+                          bankName: 'BankX',
+                          cardNumber: '1505',
+                          holderName: 'Laurel Bailey',
+                          expiryDate: '05/20',
                         ),
                       ],
                     ),
@@ -291,14 +263,15 @@ class MenuItem extends StatelessWidget {
 class CardWidget extends StatefulWidget {
   CardWidget({
     required this.color,
-    required this.text,
-    required this.index1,
-    required this.index2,
+    required this.currentBalance,
+    required this.bankName,
+    required this.cardNumber,
+    required this.holderName,
+    required this.expiryDate,
   });
 
   final Color color;
-  final String text;
-  final int index1, index2;
+  final String currentBalance, bankName, cardNumber, holderName, expiryDate;
 
   @override
   _CardWidgetState createState() => _CardWidgetState();
@@ -307,69 +280,103 @@ class CardWidget extends StatefulWidget {
 class _CardWidgetState extends State<CardWidget> {
   @override
   Widget build(BuildContext context) {
-    print('1: ${widget.index1}\n 2: ${widget.index2}');
-    return Transform.scale(
-      scale: widget.index1 == widget.index2 ? 1 : 0.9,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 25, bottom: 25),
-        child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            width: 100,
-            decoration: BoxDecoration(
-              color: widget.color,
-              borderRadius: BorderRadius.circular(18),
-              // boxShadow: [
-              //   BoxShadow(
-              //       color: color,
-              //       blurRadius: 15,
-              //       spreadRadius: 0.0,
-              //       offset: Offset(-2.0, 2.0))
-              // ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Current Balance',
-                        style: TextStyle(color: Colors.white70),
-                      ),
-                      Align(
-                        child: Text(
-                          'BankX',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
+    return Padding(
+      padding: const EdgeInsets.only(top: 25, bottom: 25),
+      child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 8),
+          width: 100,
+          decoration: BoxDecoration(
+            color: widget.color,
+            borderRadius: BorderRadius.circular(18),
+            // boxShadow: [
+            //   BoxShadow(
+            //       color: color,
+            //       blurRadius: 15,
+            //       spreadRadius: 0.0,
+            //       offset: Offset(-2.0, 2.0))
+            // ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Current Balance',
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                        Align(
+                          child: Text(
+                            widget.bankName,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Text(
-                    '\$12,432.32',
-                    style: TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    '**** **** **** 1505',
-                    style: TextStyle(color: Colors.white, fontSize: 22),
-                  ),
-                ],
-              ),
-            )
-            // Center(
-            //   child: Text(
-            //     widget.text,
-            //     style: TextStyle(color: Colors.white, fontSize: 22),
-            //   ),
-            // ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      '\$${widget.currentBalance}',
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                  ],
+                ),
+                Text(
+                  '**** **** **** ${widget.cardNumber}',
+                  style: TextStyle(
+                      color: Colors.white, fontSize: 25, letterSpacing: 2),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Card holder
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Card Holder',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          widget.holderName,
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    // Card Expires
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Expires',
+                          style: TextStyle(color: Colors.white70, fontSize: 10),
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          widget.expiryDate,
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      maxRadius: 13,
+                    )
+                  ],
+                ),
+              ],
             ),
-      ),
+          )),
     );
   }
 }

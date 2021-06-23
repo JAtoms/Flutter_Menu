@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:menu_dashboard/components/credit_card_component.dart';
+import 'package:menu_dashboard/components/menu_item_component.dart';
 import 'package:menu_dashboard/constants.dart';
+import 'package:menu_dashboard/dataFile.dart';
 
 class MenuDashBoard extends StatefulWidget {
   @override
@@ -14,7 +17,9 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     screenHeight = size.height;
     screenWidth = size.width;
     return Scaffold(
@@ -147,7 +152,14 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
   }
 
   Widget dashboard(context) {
-    int _index = 0;
+    List<CardTemplate> listOfCards = [];
+
+    listOfCards = [
+      CardTemplate('12,432.32', 'BankX', '1505', 'Laurel Bailey', '05/20'),
+      CardTemplate('12,432.32', 'BankX', '1505', 'Laurel Bailey', '05/20'),
+      CardTemplate('12,432.32', 'BankX', '1505', 'Laurel Bailey', '05/20'),
+    ];
+
     return AnimatedPositioned(
       duration: animationDuration,
       top: isCollapsed ? 0 : (0.1 * screenHeight),
@@ -189,26 +201,16 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
                     height: 225,
                     child: PageView(
                       controller:
-                          PageController(initialPage: 1, viewportFraction: 0.9),
+                      PageController(initialPage: 1, viewportFraction: 0.9),
                       pageSnapping: true,
                       scrollDirection: Axis.horizontal,
                       onPageChanged: (int index) {
                         print(index);
                         setState(() {
-                          _index = index;
-                          print(_index);
+
                         });
                       },
-                      children: [
-                        CardWidget(
-                          color: Colors.blue,
-                          currentBalance: '12,432.32',
-                          bankName: 'BankX',
-                          cardNumber: '1505',
-                          holderName: 'Laurel Bailey',
-                          expiryDate: '05/20',
-                        ),
-                      ],
+                      children: listOfCardWidgets(listOfCards),
                     ),
                   ),
                 ),
@@ -221,162 +223,55 @@ class _MenuDashBoardState extends State<MenuDashBoard> {
   }
 }
 
-class MenuItem extends StatelessWidget {
-  MenuItem(
-      {required this.icon,
-      this.textColor = Colors.white,
-      required this.text,
-      this.fontWeight = FontWeight.normal,
-      this.fontSize = 18});
 
-  final Icon icon;
-  final String text;
-  Color textColor;
-  FontWeight fontWeight;
-  double fontSize;
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: icon,
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text(text,
-                style: TextStyle(
-                    color: textColor,
-                    fontSize: fontSize,
-                    fontWeight: fontWeight)),
-          ),
-        ),
-      ],
+List<Widget> listOfCardWidgets(List<CardTemplate> listOfCards) {
+
+  List<CreditCardWidget> _listOfCreditCards = [];
+
+  for (CardTemplate i in listOfCards) {
+    _listOfCreditCards.add(
+        CreditCardWidget(
+          color: Colors.blue,
+          holderName: i.holderName,
+          cardNumber: i.cardNumber,
+          expiryDate: i.expiryDate,
+          currentBalance: i.currentBalance,
+          bankName: i.bankName,)
     );
   }
+
+  return _listOfCreditCards;
 }
 
-class CardWidget extends StatefulWidget {
-  CardWidget({
-    required this.color,
-    required this.currentBalance,
-    required this.bankName,
-    required this.cardNumber,
-    required this.holderName,
-    required this.expiryDate,
-  });
-
-  final Color color;
-  final String currentBalance, bankName, cardNumber, holderName, expiryDate;
-
-  @override
-  _CardWidgetState createState() => _CardWidgetState();
-}
-
-class _CardWidgetState extends State<CardWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 25, bottom: 25),
-      child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 8),
-          width: 100,
-          decoration: BoxDecoration(
-            color: widget.color,
-            borderRadius: BorderRadius.circular(18),
-            // boxShadow: [
-            //   BoxShadow(
-            //       color: color,
-            //       blurRadius: 15,
-            //       spreadRadius: 0.0,
-            //       offset: Offset(-2.0, 2.0))
-            // ],
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Current Balance',
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                        Align(
-                          child: Text(
-                            widget.bankName,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      '\$${widget.currentBalance}',
-                      style: TextStyle(color: Colors.white, fontSize: 22),
-                    ),
-                  ],
-                ),
-                Text(
-                  '**** **** **** ${widget.cardNumber}',
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 25, letterSpacing: 2),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Card holder
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Card Holder',
-                          style: TextStyle(color: Colors.white70, fontSize: 10),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          widget.holderName,
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    // Card Expires
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Expires',
-                          style: TextStyle(color: Colors.white70, fontSize: 10),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          widget.expiryDate,
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    CircleAvatar(
-                      backgroundColor: Colors.white,
-                      maxRadius: 13,
-                    )
-                  ],
-                ),
-              ],
-            ),
-          )),
-    );
-  }
-}
+// class ListOfCardWidgets extends StatelessWidget {
+//
+//   List<CardTemplate> listOfCards = [];
+//
+//   ListOfCardWidgets({required this.listOfCards});
+//
+//   List<CreditCardWidget> _listOfCreditCards = [];
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     for (CardTemplate i in listOfCards) {
+//       _listOfCreditCards.add(
+//           CreditCardWidget(
+//             color: Colors.blue,
+//             holderName: i.holderName,
+//             cardNumber: i.cardNumber,
+//             expiryDate: i.expiryDate,
+//             currentBalance: i.currentBalance,
+//             bankName: i.bankName,);
+//       );
+//     }
+//     return CreditCardWidget(
+//       color: Colors.blue,
+//       currentBalance: '12,432.32',
+//       bankName: 'BankX',
+//       cardNumber: '1505',
+//       holderName: 'Laurel Bailey',
+//       expiryDate: '05/20',
+//     );
+//   }
+// }
